@@ -4,6 +4,7 @@ import "./styles.css";
 
 export default function RecordingsList({ audio }) {
   const { recordings, deleteAudio } = useRecordingsList(audio);
+  console.log({recordings});
   
   return (
     <div className="recordings-container">
@@ -14,7 +15,7 @@ export default function RecordingsList({ audio }) {
             {recordings.map((record) => (
             
               <div className="record" key={record.key}>
-                <audio controls src={record.audio} />
+                <audio controls src={record.audio.link} />
                 <div className="delete-button-container">
                   <button
                     className="delete-button"

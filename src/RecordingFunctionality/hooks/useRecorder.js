@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { startRecording, saveRecording } from "../handlers/recorder-controls";
+import { getWaveBlob } from "webm-to-wav-converter";
 
 const initialState = {
   recordingMinutes: 0,
@@ -7,11 +8,12 @@ const initialState = {
   initRecording: false,
   mediaStream: null,
   mediaRecorder: null,
-  audio: null,
+  audio:null,
 };
 
 export default function useRecorder() {
   const [recorderState, setRecorderState] = useState(initialState);
+
 
   useEffect(() => {
     const MAX_RECORDER_TIME = 5;
@@ -68,15 +70,18 @@ export default function useRecorder() {
         chunks.push(e.data);
       };
 
-      recorder.onstop = () => {
-        const blob = new Blob(chunks, { type: "audio/ogg; codecs=opus" });
+      recorder.onstop = async () => {
+        let blob = new Blob(chunks, { type: "audio/webm; codecs=opus" });
+        const blobLink = URL.createObjectURL(blob);
         chunks = [];
+        blob = await getWaveBlob(blob,true);
+        const file = new File([blob],'voice.wav',{type:blob.type});
 
         setRecorderState((prevState) => {
           if (prevState.mediaRecorder)
             return {
               ...initialState,
-              audio: window.URL.createObjectURL(blob),
+              audio: {file,link:blobLink}
             };
           else return initialState;
         });
