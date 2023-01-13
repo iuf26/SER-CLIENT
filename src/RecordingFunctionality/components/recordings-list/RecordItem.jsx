@@ -28,7 +28,10 @@ export function RecordItem({ deleteAudio, predictEmotion, record }) {
     );
   };
   return (
-    <>
+    <div style={{borderBottom:"solid 0.3px", padding: "0.5rem"}}>
+      <p style={{ cursor: "pointer", fontSize: "1rem", fontWeight: "bold" }}>
+        {record.audio.name}
+      </p>
       <div className="record" key={record.key}>
         <audio controls src={URL.createObjectURL(record.audio)} />
         <div className="delete-button-container">
@@ -50,9 +53,7 @@ export function RecordItem({ deleteAudio, predictEmotion, record }) {
               <Icon name={"chart line"} />
             )}
           </button>
-        
         </div>
-        
       </div>
       {isPredictionFinished ? (
         <div>
@@ -73,6 +74,6 @@ export function RecordItem({ deleteAudio, predictEmotion, record }) {
           </div>
         </div>
       ) : null}
-    </>
+    </div>
   );
 }
