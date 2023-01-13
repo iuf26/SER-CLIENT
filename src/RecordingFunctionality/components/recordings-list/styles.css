@@ -34,7 +34,7 @@
   display: grid;
   justify-content: center;
   overflow-y: auto;
-  gap: 2rem;
+  gap: 4rem;
 }
 
 .record {
@@ -68,17 +68,18 @@
 }
 
 .delete-button:hover {
-  color: #fd1c03;
+  color: #a53ad3;
 }
 
 .prediction-table {
   font-family: arial, sans-serif;
-  border-collapse: collapse;
+  /* border-collapse: collapse; */
+  border: transparent;
   width: 100%;
 }
 
 .prediction-table td, .prediction-table th {
-  border: 1px solid;
+  /* border: 1px solid; */
   text-align: left;
   padding: 8px;
 }
@@ -91,3 +92,10 @@
   background-color: #470264;
 }
 
+.prediction-table th:nth-child(even) {
+  background-color: #430643;
+}
+
+.prediction-table th:nth-child(odd) {
+  background-color: #611383;
+}
