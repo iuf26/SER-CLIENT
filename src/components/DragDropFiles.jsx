@@ -1,8 +1,10 @@
 import { useState, useRef } from "react";
 import { AudioRecorder, useAudioRecorder } from "react-audio-voice-recorder";
+import audioBufferToWav from "../RecordingFunctionality/utils/convert-to-wav";
 import { convert } from "../utils/convert";
+import { WavRecorder,getWaveBlob } from "webm-to-wav-converter";
 
-const DragDropFiles = () => {
+export const DragDropFiles = () => {
   const [files, setFiles] = useState(null);
   const [response,setResponse] = useState("");
   const inputRef = useRef();
@@ -10,16 +12,25 @@ const DragDropFiles = () => {
   const recorderControls = useAudioRecorder();
 
   const addAudioElement = async (blob) => {
-    const url = URL.createObjectURL(blob);
-    setUrl(url);
-    const file = new File([blob],'voice',{type:blob.type});
-    let sourceAudioFile = file;
-    let targetAudioFormat = 'wav'
-    let convertedAudioDataObj = await convert(sourceAudioFile, targetAudioFormat);
-    fetch(convertedAudioDataObj.data).then(resp => resp.blob()).then(blob => {
-      const wavFile = new File([blob],"voice-wav",{type:blob.type})
-      setFiles([wavFile])
-    })
+
+   
+    // const url = URL.createObjectURL(blob);
+    // setUrl(url);
+    const res = await getWaveBlob(blob,true);
+    
+
+   // console.log({blob});
+
+    const file = new File([res],'voice',{type:blob.type});
+    // let sourceAudioFile = file;
+    // let targetAudioFormat = 'wav'
+    // let convertedAudioDataObj = await convert(sourceAudioFile, targetAudioFormat);
+    // fetch(convertedAudioDataObj.data).then(resp => resp.blob()).then(blob => {
+    //   const wavFile = new File([blob],"voice.wav",{type:blob.type})
+    //   setFiles([wavFile])
+    // })
+    setFiles([file])
+    
     
   };
 
@@ -35,7 +46,9 @@ const DragDropFiles = () => {
 
   // send files to the server // learn from my other video
   const handleUpload = () => {
+   
     const formData = new FormData();
+    console.log(files[0]);
     formData.append("recording", files[0]);
     fetch("http://localhost:8081", {
       method: "POST",
@@ -64,6 +77,17 @@ const DragDropFiles = () => {
       </div>
     );
 
+    const wavRecorder = new WavRecorder();
+    const onRecordStart = () => {
+      wavRecorder.start();
+    }
+
+    const onRecordStop = async () => {
+      wavRecorder.stop();
+      let res =  wavRecorder.getBlob(true);
+      res.then(res => console.log({res}))
+      console.log({res});
+    }
   return (
     <>
       <div className="dropzone" onDragOver={handleDragOver} onDrop={handleDrop}>
@@ -78,7 +102,9 @@ const DragDropFiles = () => {
           ref={inputRef}
         />
         <button onClick={() => inputRef.current.click()}>Select Files</button>
-        <button>Record</button>
+        <button onClick={onRecordStart}>Record</button>
+        <button onClick={onRecordStop}>Hi hi</button>
+        <button onClick={recorderControls.stopRecording}>Stop recording</button>
         <AudioRecorder
         onRecordingComplete={(blob) => addAudioElement(blob)}
         recorderControls={recorderControls}
