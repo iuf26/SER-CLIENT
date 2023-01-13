@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { startRecording, saveRecording } from "../handlers/recorder-controls";
 import { getWaveBlob } from "webm-to-wav-converter";
+import { getCurrentDateString } from "../handlers/date";
 
 const initialState = {
   recordingMinutes: 0,
@@ -72,16 +73,15 @@ export default function useRecorder() {
 
       recorder.onstop = async () => {
         let blob = new Blob(chunks, { type: "audio/webm; codecs=opus" });
-        const blobLink = URL.createObjectURL(blob);
         chunks = [];
         blob = await getWaveBlob(blob,true);
-        const file = new File([blob],'voice.wav',{type:blob.type});
+        const file = new File([blob],`${getCurrentDateString()} recording.wav`,{type:blob.type});
 
         setRecorderState((prevState) => {
           if (prevState.mediaRecorder)
             return {
               ...initialState,
-              audio: {file,link:blobLink}
+              audio:file
             };
           else return initialState;
         });
@@ -93,8 +93,19 @@ export default function useRecorder() {
     };
   }, [recorderState.mediaRecorder]);
 
+  const addRecording = (file) => {
+    console.log({file});
+    setRecorderState((prevState) => {
+        return {
+          ...initialState,
+          audio:file
+        };
+    });
+  }
+
   return {
     recorderState,
+    addRecording: (file) => addRecording(file),
     startRecording: () => startRecording(setRecorderState),
     cancelRecording: () => setRecorderState(initialState),
     saveRecording: () => saveRecording(recorderState.mediaRecorder),

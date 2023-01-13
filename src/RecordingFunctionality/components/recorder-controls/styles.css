@@ -65,9 +65,11 @@
 }
 
 .start-button-container {
-  width: 15%;
-  display: grid;
+  width: 50%;
+  display: flex;
   place-content: center;
+  margin:auto;
+  gap:0.5rem;
 }
 
 .start-button:hover {

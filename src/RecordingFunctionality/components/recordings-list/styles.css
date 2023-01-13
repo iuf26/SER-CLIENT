@@ -34,6 +34,7 @@
   display: grid;
   justify-content: center;
   overflow-y: auto;
+  gap: 2rem;
 }
 
 .record {
@@ -50,8 +51,11 @@
 .delete-button-container {
   min-width: 20%;
   max-width: 10%;
-  display: grid;
+  display: flex;
   place-content: center;
+  margin: auto;
+  gap:0.5rem;
+  margin-left: 0.3rem;
 }
 
 .delete-button {
@@ -66,3 +70,24 @@
 .delete-button:hover {
   color: #fd1c03;
 }
+
+.prediction-table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+.prediction-table td, .prediction-table th {
+  border: 1px solid;
+  text-align: left;
+  padding: 8px;
+}
+
+.prediction-table td:nth-child(even) {
+  background-color: #6f006f;
+}
+
+.prediction-table td:nth-child(odd) {
+  background-color: #470264;
+}
+

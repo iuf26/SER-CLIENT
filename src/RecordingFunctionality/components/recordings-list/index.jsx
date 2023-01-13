@@ -1,32 +1,19 @@
 import { Icon } from "semantic-ui-react";
 import useRecordingsList from "../../hooks/use-recordings-list";
+import { RecordItem } from "./RecordItem";
 import "./styles.css";
 
 export default function RecordingsList({ audio }) {
-  const { recordings, deleteAudio } = useRecordingsList(audio);
+  const { recordings, deleteAudio, predictEmotion } = useRecordingsList(audio);
   console.log({recordings});
-  
+
   return (
     <div className="recordings-container">
       {recordings.length > 0 ? (
         <>
           <h1>Your recordings</h1>
           <div className="recordings-list">
-            {recordings.map((record) => (
-            
-              <div className="record" key={record.key}>
-                <audio controls src={record.audio.link} />
-                <div className="delete-button-container">
-                  <button
-                    className="delete-button"
-                    title="Delete this audio"
-                    onClick={() => deleteAudio(record.key)}
-                  >
-                    <Icon name={"trash"} />
-                  </button>
-                </div>
-              </div>
-            ))}
+            {recordings.map((record) => <RecordItem key={record.key} record={record} deleteAudio={deleteAudio} predictEmotion={predictEmotion} />)}
           </div>
         </>
       ) : (
