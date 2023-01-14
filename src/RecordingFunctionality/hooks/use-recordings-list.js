@@ -18,7 +18,6 @@ export default function useRecordingsList(audio) {
     recordings,
     deleteAudio: (audioKey) => deleteAudio(audioKey, setRecordings),
     predictEmotion: (audioKey,setIsFinished,setIsLoading,setPrediction) => {
-      console.log({audioKey});
       const file = recordings.find((elem) => elem.key === audioKey).audio;
       predictEmotion(file,setIsFinished,setIsLoading,setPrediction);
     },

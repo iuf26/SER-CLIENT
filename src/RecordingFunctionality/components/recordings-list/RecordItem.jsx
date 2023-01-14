@@ -28,7 +28,7 @@ export function RecordItem({ deleteAudio, predictEmotion, record }) {
     );
   };
   return (
-    <div style={{borderBottom:"solid 0.3px", padding: "0.5rem"}}>
+    <div style={{ borderBottom: "solid 0.3px", padding: "0.5rem" }}>
       <p style={{ cursor: "pointer", fontSize: "1rem", fontWeight: "bold" }}>
         {record.audio.name}
       </p>
@@ -57,7 +57,10 @@ export function RecordItem({ deleteAudio, predictEmotion, record }) {
       </div>
       {isPredictionFinished ? (
         <div>
-          Prediction: <bold>{emotions[prediction.predictedEmotion]}</bold>
+          Prediction:{" "}
+          <p style={{ fontWeight: "bold" }}>
+            {emotions[prediction.predictedEmotion]}
+          </p>
           <br></br>
           <div>
             Scores:

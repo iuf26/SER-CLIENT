@@ -10,7 +10,7 @@ export async function startRecording(setRecorderState) {
       };
     });
   } catch (err) {
-    console.log(err);
+    console.error(err);
   }
 }
 

@@ -94,7 +94,6 @@ export default function useRecorder() {
   }, [recorderState.mediaRecorder]);
 
   const addRecording = (file) => {
-    console.log({file});
     setRecorderState((prevState) => {
         return {
           ...initialState,
