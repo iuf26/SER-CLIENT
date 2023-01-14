@@ -5,7 +5,6 @@ import "./styles.css";
 
 export default function RecordingsList({ audio }) {
   const { recordings, deleteAudio, predictEmotion } = useRecordingsList(audio);
-  console.log({recordings});
 
   return (
     <div className="recordings-container">
